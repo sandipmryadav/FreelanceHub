@@ -1,4 +1,5 @@
 ﻿using FreelanceHub.Data;
+using FreelanceHub.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FreelanceHub.Controllers
@@ -11,9 +12,21 @@ namespace FreelanceHub.Controllers
         {
             _context = context;
         }
+
         public IActionResult Create()
         {
             return View();
+        }
+
+        [HttpPost]
+
+        public IActionResult Create (Client client)
+        {
+            if(ModelState.IsValid)
+            {
+
+            }
+            return View(client);
         }
     }
 }
