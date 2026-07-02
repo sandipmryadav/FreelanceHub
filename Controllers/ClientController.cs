@@ -15,9 +15,9 @@ namespace FreelanceHub.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            return View(); 
         }
-
+           
         [HttpPost]
 
         public IActionResult Create (Client client)
@@ -25,6 +25,9 @@ namespace FreelanceHub.Controllers
             if(ModelState.IsValid)
             {
 
+                _context.Clients.Add(client);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
             }
             return View(client);
         }
