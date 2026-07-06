@@ -62,5 +62,34 @@ namespace FreelanceHub.Controllers
             }
             return View(client);
         }
+
+            public IActionResult Delete(int id)
+            {
+               var client =  _context.Clients.Find(id);
+           
+
+                if(client == null)
+                {
+                    return NotFound();
+                }
+            return View(client);
+
+            }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var client = _context.Clients.Find(id);
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+            _context.Clients.Remove(client);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
     }
 }
