@@ -13,11 +13,20 @@ namespace FreelanceHub.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string search)
         {
-            var clients = _context.Clients.ToList();
-            return View(clients);
+            var clients = _context.Clients.AsQueryable();
+
+            if(!string.IsNullOrWhiteSpace(search))
+            {
+                clients = clients.Where(c =>
+                c.Name.Contains(search) ||
+                c.Email.Contains(search) ||
+                c.CompanyName.Contains(search));
+            }
+            return View(clients.ToList());
         }
+
 
         public IActionResult Create()
         {
