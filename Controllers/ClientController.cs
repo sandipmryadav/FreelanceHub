@@ -59,20 +59,20 @@ namespace FreelanceHub.Controllers
         }
 
         [HttpPost]
-
-        public IActionResult Edit (Client client)
+        public IActionResult Edit(Client client)
         {
-            
-            if(ModelState.IsValid)
+            Console.WriteLine("POST Edit called");
+            if (ModelState.IsValid)
             {
                 _context.Clients.Update(client);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             return View(client);
         }
 
-            public IActionResult Delete(int id)
+        public IActionResult Delete(int id)
             {
                var client =  _context.Clients.Find(id);
            
@@ -99,6 +99,13 @@ namespace FreelanceHub.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Details(int id)
+        {
+            var client = _context.Clients.Find(id);
+            if (client == null) return NotFound();
+            return View(client);
         }
     }
 }
