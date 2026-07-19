@@ -1,5 +1,12 @@
 ﻿@model List<FreelanceHub.Models.Client>
 
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        @TempData["Success"]
+    </div>
+}
+
 <form asp-action="Index" method="get" class="row mb-3">
 
     <div class="col-md-6">

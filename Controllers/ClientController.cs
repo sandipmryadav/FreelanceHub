@@ -42,6 +42,7 @@ namespace FreelanceHub.Controllers
 
                 _context.Clients.Add(client);
                 _context.SaveChanges();
+                TempData["Success"] = "Client created successfully.";
                 return RedirectToAction("Index");
             }
             return View(client);
@@ -66,6 +67,7 @@ namespace FreelanceHub.Controllers
             {
                 _context.Clients.Update(client);
                 _context.SaveChanges();
+                TempData["Success"] = "Client is Updated Successfully";
                 return RedirectToAction("Index");
             }
 
@@ -97,6 +99,7 @@ namespace FreelanceHub.Controllers
             }
             _context.Clients.Remove(client);
             _context.SaveChanges();
+            TempData["Success"] = "Client is deleted successfully";
 
             return RedirectToAction("Index");
         }
