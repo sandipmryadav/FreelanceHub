@@ -15,7 +15,9 @@ namespace FreelanceHub.Controllers
 
         public IActionResult Index(string search)
         {
-            var clients = _context.Clients.AsQueryable();
+            var totalClients = _context.Clients.Count();
+            ViewBag.TotalClients = totalClients;
+            var clients = _context.Clients.OrderByDescending(c => c.CreatedAt).AsQueryable();
 
             if(!string.IsNullOrWhiteSpace(search))
             {
