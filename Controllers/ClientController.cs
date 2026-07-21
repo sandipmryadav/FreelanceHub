@@ -13,10 +13,10 @@ namespace FreelanceHub.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string search)
+        public IActionResult Index(string search , int page = 1)
         {
-            var totalClients = _context.Clients.Count();
-            ViewBag.TotalClients = totalClients;
+            int pageSize = 5;
+            
             var clients = _context.Clients.OrderByDescending(c => c.CreatedAt).AsQueryable();
 
             if(!string.IsNullOrWhiteSpace(search))
@@ -26,6 +26,12 @@ namespace FreelanceHub.Controllers
                 c.Email.Contains(search) ||
                 c.CompanyName.Contains(search));
             }
+            int totalClients = _context.Clients.Count();
+            ViewBag.TotalClients = totalClients;
+            int totalPages = (int)Math.Ceiling((double)totalClients / pageSize);
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            clients = clients.Skip((page - 1) * pageSize).Take(pageSize);
             return View(clients.ToList());
         }
 
