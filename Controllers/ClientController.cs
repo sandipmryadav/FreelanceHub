@@ -15,6 +15,10 @@ namespace FreelanceHub.Controllers
 
         public IActionResult Index(string search , int page = 1)
         {
+            if (HttpContext.Session.GetString("UserName") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             int pageSize = 5;
             
             var clients = _context.Clients.OrderByDescending(c => c.CreatedAt).AsQueryable();
@@ -38,6 +42,10 @@ namespace FreelanceHub.Controllers
 
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("UserName") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             return View(); 
         }
            
@@ -45,6 +53,7 @@ namespace FreelanceHub.Controllers
 
         public IActionResult Create (Client client)
         {
+      
             if(ModelState.IsValid)
             {
 
@@ -58,8 +67,12 @@ namespace FreelanceHub.Controllers
 
         public IActionResult Edit (int id)
         {
-            
-          var client =  _context.Clients.Find(id);
+            if (HttpContext.Session.GetString("UserName") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var client =  _context.Clients.Find(id);
             if(client == null)
             {
                 return NotFound();
@@ -84,7 +97,11 @@ namespace FreelanceHub.Controllers
 
         public IActionResult Delete(int id)
             {
-               var client =  _context.Clients.Find(id);
+            if (HttpContext.Session.GetString("UserName") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            var client =  _context.Clients.Find(id);
            
 
                 if(client == null)
@@ -99,6 +116,7 @@ namespace FreelanceHub.Controllers
         [ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
+
             var client = _context.Clients.Find(id);
 
             if (client == null)
@@ -114,6 +132,10 @@ namespace FreelanceHub.Controllers
 
         public IActionResult Details(int id)
         {
+            if (HttpContext.Session.GetString("UserName") == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var client = _context.Clients.Find(id);
             if (client == null) return NotFound();
             return View(client);

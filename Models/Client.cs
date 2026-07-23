@@ -15,11 +15,12 @@ namespace FreelanceHub.Models
         [MaxLength(150)]
         public string Email { get; set; }
 
-        [Phone]
-        [MaxLength(15)]
+        [RegularExpression(@"^\d{10}$",
+        ErrorMessage = "Phone number must be 10 digits.")]
         public string Phone { get; set; }
 
-        [MaxLength(150)]
+        [MaxLength(150,
+            ErrorMessage = "Company name cannot exceed 150 characters.")]
         public string CompanyName { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
