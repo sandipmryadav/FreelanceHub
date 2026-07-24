@@ -20,7 +20,7 @@ namespace FreelanceHub.Controllers
                 return RedirectToAction("Login", "Account");
             }
             int pageSize = 5;
-            
+                
             var clients = _context.Clients.OrderByDescending(c => c.CreatedAt).AsQueryable();
 
             if(!string.IsNullOrWhiteSpace(search))
@@ -32,6 +32,21 @@ namespace FreelanceHub.Controllers
             }
             int totalClients = _context.Clients.Count();
             ViewBag.TotalClients = totalClients;
+
+            int clientsWithPhone = _context.Clients
+                .Count(c => !string.IsNullOrEmpty(c.Phone));
+
+            int clientsWithoutPhone = _context.Clients
+                .Count(c => string.IsNullOrEmpty(c.Phone));
+
+            int totalUsers = _context.Users.Count();
+
+            ViewBag.ClientsWithPhone = clientsWithPhone;
+            ViewBag.ClientsWithoutPhone = clientsWithoutPhone;
+            ViewBag.TotalUsers = totalUsers;
+
+
+
             int totalPages = (int)Math.Ceiling((double)totalClients / pageSize);
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = totalPages;

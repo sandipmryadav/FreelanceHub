@@ -9,6 +9,46 @@
         </div>
     </div>
 
+<div class="row mb-3">
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5>Total Clients</h5>
+                <h3>@ViewBag.TotalClients</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5>With Phone</h5>
+                <h3>@ViewBag.ClientsWithPhone</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5>Without Phone</h5>
+                <h3>@ViewBag.ClientsWithoutPhone</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <h5>Total Users</h5>
+                <h3>@ViewBag.TotalUsers</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 @if (TempData["Success"] != null)
 {
 

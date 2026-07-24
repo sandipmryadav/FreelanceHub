@@ -17,7 +17,7 @@ namespace FreelanceHub.Models
 
         [RegularExpression(@"^\d{10}$",
         ErrorMessage = "Phone number must be 10 digits.")]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         [MaxLength(150,
             ErrorMessage = "Company name cannot exceed 150 characters.")]
