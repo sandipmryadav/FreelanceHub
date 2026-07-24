@@ -1,61 +1,78 @@
 # FreelanceHub
 
-FreelanceHub is a Freelancer Project Management System built to practice **ASP.NET Core MVC**, **Entity Framework Core**, and **SQL Server** by developing real-world business features step by step.
+FreelanceHub is an ASP.NET Core MVC application for managing clients and freelance projects. It provides secure client management with authentication, search, validation, and pagination features.
 
-## 🚀 Features Implemented
+## Features
 
-### Client Management
+- User Login & Logout (Session Authentication)
+- Client Management (CRUD Operations)
+- Search Clients by Name, Email, or Company
+- Pagination Support
+- Client Details View
+- Form Validation
+- Success Messages using TempData
+- Dashboard with Client Statistics
+- Responsive Bootstrap UI
 
-* Create Client
-* View Client List
-* Edit Client
-* Delete Client with confirmation page
-* Server-side validation using Data Annotations
+## Technologies Used
 
-### Search
+- ASP.NET Core MVC
+- Entity Framework Core
+- SQL Server
+- LINQ
+- Bootstrap 5
+- Session Authentication
 
-* Search by Name
-* Search by Email
-* Search by Company
-* GET-based search form
-* Dynamic filtering with LINQ
+## Project Structure
 
-### What I Learned
+- Models
+- Views
+- Controllers
+- Data (DbContext)
+- Authentication & Session Management
 
-* ASP.NET Core MVC
-* Entity Framework Core CRUD Operations
-* DbContext and DbSet
-* Migrations
-* Model Binding
-* Model Validation
-* Change Tracker
-* LINQ (`Where`, `Contains`, `ToList`, `Find`, `FirstOrDefault`)
-* `IQueryable` and Deferred Execution
-* Bootstrap Forms, Cards, Buttons, and Tables
-* Git and GitHub workflow
+## Screenshots
 
-## 🛠 Tech Stack
+Add screenshots here after deployment.
 
-* ASP.NET Core MVC
-* Entity Framework Core
-* SQL Server
-* Bootstrap 5
-* C#
-* LINQ
-* Git & GitHub
+## Learning Outcomes
 
-## 📈 Project Status
+This project helped me learn:
 
-This project is actively being developed. New features and improvements are added regularly as part of my .NET learning journey.
+- ASP.NET Core MVC Architecture
+- Entity Framework Core CRUD Operations
+- LINQ Queries
+- Model Validation
+- Session-Based Authentication
+- Pagination using Skip() and Take()
+- Search and Filtering
+- TempData, ViewBag, and ViewData
 
-## 📚 Upcoming Features
+## Setup Instructions
 
-* Client Details Page
-* Pagination
-* Success Notifications (TempData)
-* One-to-Many Relationships
-* Repository Pattern
-* Service Layer
-* Authentication & Authorization
-* Dashboard
-* Deployment
+1. Clone the repository
+
+```bash
+git clone https://github.com/sandipmryadav/FreelanceHub.git
+
+Open the project in Visual Studio
+Update the SQL Server connection string in:
+appsettings.json
+Run migrations
+Update-Database
+Start the application
+Ctrl + F5
+Future Improvements
+Database-Based Authentication
+Role-Based Authorization
+Project Management Module
+Dashboard Charts
+Repository Pattern
+Password Hashing
+
+Author
+Sandip Yadav
+
+GitHub: https://github.com/sandipmryadav
+LinkedIn: https://www.linkedin.com/in/sandip-yadav-/
+
