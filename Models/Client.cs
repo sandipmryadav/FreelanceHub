@@ -25,5 +25,7 @@ namespace FreelanceHub.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        public List<Project> Projects { get; set; } = new();
+
     }
 }
