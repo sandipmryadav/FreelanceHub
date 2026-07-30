@@ -1,11 +1,13 @@
 using FreelanceHub.Data;
 using Microsoft.EntityFrameworkCore;
+using FreelanceHub.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -33,3 +35,16 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+namespace FreelanceHub.Data
+{
+    public class ApplicationDbContext : DbContext
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
+
+        // public DbSet<YourEntity> YourEntities { get; set; }
+    }
+}
