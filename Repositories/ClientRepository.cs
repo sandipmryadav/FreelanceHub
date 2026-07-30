@@ -16,22 +16,33 @@ namespace FreelanceHub.Repositories
 
         public List<Client> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Clients.ToList();
+        }
+
+        public void Add(Client client)
+        {
+            _context.Clients.Add(client);
+            _context.SaveChanges();
         }
 
         public Client? GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Clients.Find(id);
         }
 
         public void Update(Client client)
         {
-            throw new NotImplementedException();
+            _context.Clients.Update(client);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var client = _context.Clients.Find(id);
+            if(client != null)
+            {
+                _context.Clients.Remove(client);
+            }
         }
     }
 }
