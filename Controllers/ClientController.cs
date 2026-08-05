@@ -1,18 +1,20 @@
 ﻿using FreelanceHub.Data;
 using FreelanceHub.Models;
+using FreelanceHub.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FreelanceHub.Controllers
 {
     public class ClientController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IClientRepository _clientRepository;
 
-        public ClientController (AppDbContext context)
+        public ClientController(IClientRepository clientRepository)
         {
-            _context = context;
+            _clientRepository = clientRepository;
         }
 
+          
         public IActionResult Index(string search , int page = 1)
         {
             if (HttpContext.Session.GetString("UserName") == null)
@@ -20,26 +22,17 @@ namespace FreelanceHub.Controllers
                 return RedirectToAction("Login", "Account");
             }
             int pageSize = 5;
-                
-            var clients = _context.Clients.OrderByDescending(c => c.CreatedAt).AsQueryable();
 
-            if(!string.IsNullOrWhiteSpace(search))
-            {
-                clients = clients.Where(c =>
-                c.Name.Contains(search) ||
-                c.Email.Contains(search) ||
-                c.CompanyName.Contains(search));
-            }
-            int totalClients = _context.Clients.Count();
+            var clients = _clientRepository.Search(search);
+
+            int totalClients = _clientRepository.GetTotalClients();
             ViewBag.TotalClients = totalClients;
 
-            int clientsWithPhone = _context.Clients
-                .Count(c => !string.IsNullOrEmpty(c.Phone));
+            int clientsWithPhone = _clientRepository.GetClientsWithPhone();
 
-            int clientsWithoutPhone = _context.Clients
-                .Count(c => string.IsNullOrEmpty(c.Phone));
+            int clientsWithoutPhone = _clientRepository.GetClientsWithoutPhone();
 
-            int totalUsers = _context.Users.Count();
+            int totalUsers = _clientRepository.GetTotalUsers();
 
             ViewBag.ClientsWithPhone = clientsWithPhone;
             ViewBag.ClientsWithoutPhone = clientsWithoutPhone;
@@ -72,8 +65,7 @@ namespace FreelanceHub.Controllers
             if(ModelState.IsValid)
             {
 
-                _context.Clients.Add(client);
-                _context.SaveChanges();
+                _clientRepository.Add(client);
                 TempData["Success"] = "Client created successfully.";
                 return RedirectToAction("Index");
             }
@@ -87,7 +79,7 @@ namespace FreelanceHub.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var client =  _context.Clients.Find(id);
+            var client =  _clientRepository.GetById(id);
             if(client == null)
             {
                 return NotFound();
@@ -101,8 +93,7 @@ namespace FreelanceHub.Controllers
             Console.WriteLine("POST Edit called");
             if (ModelState.IsValid)
             {
-                _context.Clients.Update(client);
-                _context.SaveChanges();
+                _clientRepository.Update(client);
                 TempData["Success"] = "Client is Updated Successfully";
                 return RedirectToAction("Index");
             }
@@ -116,7 +107,7 @@ namespace FreelanceHub.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            var client =  _context.Clients.Find(id);
+            var client = _clientRepository.GetById(id);
            
 
                 if(client == null)
@@ -131,15 +122,7 @@ namespace FreelanceHub.Controllers
         [ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
-
-            var client = _context.Clients.Find(id);
-
-            if (client == null)
-            {
-                return NotFound();
-            }
-            _context.Clients.Remove(client);
-            _context.SaveChanges();
+            _clientRepository.Delete(id);
             TempData["Success"] = "Client is deleted successfully";
 
             return RedirectToAction("Index");
@@ -151,7 +134,7 @@ namespace FreelanceHub.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            var client = _context.Clients.Find(id);
+            var client = _clientRepository.GetById(id);
             if (client == null) return NotFound();
             return View(client);
         }

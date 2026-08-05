@@ -25,6 +25,41 @@ namespace FreelanceHub.Repositories
             _context.SaveChanges();
         }
 
+        public IQueryable<Client> Search(string? search)
+        {
+            var clients = _context.Clients.OrderByDescending(c => c.CreatedAt).AsQueryable();
+
+            if(!string.IsNullOrWhiteSpace(search))
+            {
+                clients = clients.Where(c =>
+                c.Name.Contains(search) ||
+                c.Email.Contains(search) ||
+                c.CompanyName.Contains(search)
+                );
+            }
+
+            return clients;
+        }
+
+        public int GetTotalClients()
+        {
+            return _context.Clients.Count();
+        }
+
+        public int GetClientsWithPhone()
+        {
+            return _context.Clients.Count(c => !string.IsNullOrEmpty(c.Phone));
+        }
+
+        public int GetClientsWithoutPhone()
+        {
+            return _context.Clients.Count(c => string.IsNullOrEmpty(c.Phone));
+        }
+
+        public int GetTotalUsers()
+        {
+            return _context.Users.Count();
+        }
         public Client? GetById(int id)
         {
             return _context.Clients.Find(id);
@@ -42,6 +77,7 @@ namespace FreelanceHub.Repositories
             if(client != null)
             {
                 _context.Clients.Remove(client);
+                _context.SaveChanges();
             }
         }
     }
