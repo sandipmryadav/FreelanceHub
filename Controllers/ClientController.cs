@@ -15,7 +15,7 @@ namespace FreelanceHub.Controllers
         }
 
           
-        public IActionResult Index(string search , int page = 1)
+        public async Task<IActionResult> Index(string search , int page = 1)
         {
             if (HttpContext.Session.GetString("UserName") == null)
             {
@@ -23,16 +23,16 @@ namespace FreelanceHub.Controllers
             }
             int pageSize = 5;
 
-            var clients = _clientRepository.Search(search);
+            var clients =  _clientRepository.Search(search);
 
-            int totalClients = _clientRepository.GetTotalClients();
+            int totalClients =await _clientRepository.GetTotalClients();
             ViewBag.TotalClients = totalClients;
 
-            int clientsWithPhone = _clientRepository.GetClientsWithPhone();
+            int clientsWithPhone =await _clientRepository.GetClientsWithPhone();
 
-            int clientsWithoutPhone = _clientRepository.GetClientsWithoutPhone();
+            int clientsWithoutPhone =await _clientRepository.GetClientsWithoutPhone();
 
-            int totalUsers = _clientRepository.GetTotalUsers();
+            int totalUsers =await _clientRepository.GetTotalUsers();
 
             ViewBag.ClientsWithPhone = clientsWithPhone;
             ViewBag.ClientsWithoutPhone = clientsWithoutPhone;
@@ -59,27 +59,27 @@ namespace FreelanceHub.Controllers
            
         [HttpPost]
 
-        public IActionResult Create (Client client)
+        public async Task<IActionResult> Create (Client client)
         {
       
             if(ModelState.IsValid)
             {
 
-                _clientRepository.Add(client);
+                await _clientRepository.Add(client);
                 TempData["Success"] = "Client created successfully.";
                 return RedirectToAction("Index");
             }
             return View(client);
         }
 
-        public IActionResult Edit (int id)
+        public async Task<IActionResult> Edit (int id)
         {
             if (HttpContext.Session.GetString("UserName") == null)
             {
                 return RedirectToAction("Login", "Account");
             }
 
-            var client =  _clientRepository.GetById(id);
+            var client = await _clientRepository.GetById(id);
             if(client == null)
             {
                 return NotFound();
@@ -88,12 +88,12 @@ namespace FreelanceHub.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Client client)
+        public async Task <IActionResult> Edit(Client client)
         {
             Console.WriteLine("POST Edit called");
             if (ModelState.IsValid)
             {
-                _clientRepository.Update(client);
+                await _clientRepository.Update(client);
                 TempData["Success"] = "Client is Updated Successfully";
                 return RedirectToAction("Index");
             }
@@ -101,13 +101,13 @@ namespace FreelanceHub.Controllers
             return View(client);
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
             {
             if (HttpContext.Session.GetString("UserName") == null)
             {
                 return RedirectToAction("Login", "Account");
             }
-            var client = _clientRepository.GetById(id);
+            var client = await _clientRepository.GetById(id);
            
 
                 if(client == null)
@@ -120,21 +120,21 @@ namespace FreelanceHub.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            _clientRepository.Delete(id);
+           await _clientRepository.Delete(id);
             TempData["Success"] = "Client is deleted successfully";
 
-            return RedirectToAction("Index");
+            return  RedirectToAction("Index");
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
             if (HttpContext.Session.GetString("UserName") == null)
             {
                 return RedirectToAction("Login", "Account");
             }
-            var client = _clientRepository.GetById(id);
+            var client =await _clientRepository.GetById(id);
             if (client == null) return NotFound();
             return View(client);
         }

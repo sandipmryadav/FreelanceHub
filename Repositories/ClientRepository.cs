@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FreelanceHub.Models;
+using Microsoft.EntityFrameworkCore;
 using FreelanceHub.Data; 
 
 namespace FreelanceHub.Repositories
@@ -14,15 +15,15 @@ namespace FreelanceHub.Repositories
             _context = context;
         }
 
-        public List<Client> GetAll()
+        public async Task<List<Client>> GetAll()
         {
-            return _context.Clients.ToList();
+            return await _context.Clients.ToListAsync();
         }
 
-        public void Add(Client client)
+        public async Task Add(Client client)
         {
-            _context.Clients.Add(client);
-            _context.SaveChanges();
+             _context.Clients.Add(client);
+            await _context.SaveChangesAsync();
         }
 
         public IQueryable<Client> Search(string? search)
@@ -41,43 +42,43 @@ namespace FreelanceHub.Repositories
             return clients;
         }
 
-        public int GetTotalClients()
+        public async Task<int> GetTotalClients()
         {
             return _context.Clients.Count();
         }
 
-        public int GetClientsWithPhone()
+        public async Task<int> GetClientsWithPhone()
         {
             return _context.Clients.Count(c => !string.IsNullOrEmpty(c.Phone));
         }
 
-        public int GetClientsWithoutPhone()
+        public async Task<int> GetClientsWithoutPhone()
         {
-            return _context.Clients.Count(c => string.IsNullOrEmpty(c.Phone));
+            return await _context.Clients.CountAsync(c => string.IsNullOrEmpty(c.Phone));
         }
 
-        public int GetTotalUsers()
+        public async Task<int> GetTotalUsers()
         {
-            return _context.Users.Count();
+            return await _context.Users.CountAsync();
         }
-        public Client? GetById(int id)
+        public async Task<Client?> GetById(int id)
         {
-            return _context.Clients.Find(id);
+           return await _context.Clients.FindAsync(id);
         }
 
-        public void Update(Client client)
+        public async Task Update(Client client)
         {
             _context.Clients.Update(client);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var client = _context.Clients.Find(id);
+            var client =await _context.Clients.FindAsync(id);
             if(client != null)
             {
                 _context.Clients.Remove(client);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
     }

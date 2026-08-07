@@ -4,16 +4,16 @@ namespace FreelanceHub.Repositories
 {
     public interface IClientRepository
     {
-        List<Client> GetAll();
-        Client? GetById(int id);
-        void Add(Client client);
-        void Update(Client client);
-        void Delete(int id);
+       Task <List<Client>> GetAll();
+        Task<Client?> GetById(int id);
+        Task Add(Client client);
+        Task Update(Client client);
+        Task Delete(int id);
 
         IQueryable<Client> Search(string? search);
-        int GetTotalClients();
-        int GetClientsWithPhone();
-        int GetClientsWithoutPhone();
-        int GetTotalUsers();
+        Task <int> GetTotalClients();
+        Task <int> GetClientsWithPhone();
+        Task <int> GetClientsWithoutPhone();
+        Task <int> GetTotalUsers();
     }
 }
